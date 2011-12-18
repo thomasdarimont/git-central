@@ -156,7 +156,7 @@ generate_email_header()
 generate_create_branch_email()
 {
 	# This is a new branch and so oldrev is not valid
-	git rev-list --pretty=format:"        at %h %s" --no-walk "$newrev" | grep -vP "^commit"
+	git rev-list --pretty=format:"        at %h %s" --no-walk "$newrev" | grep -v "^commit"
 
 	set_new_commits
 
@@ -184,14 +184,14 @@ generate_create_branch_email()
 generate_update_branch_email()
 {
 	# List all of the revisions that were removed by this update (hopefully empty)
-	git rev-list --first-parent --pretty=format:"  discards %h %s" $newrev..$oldrev | grep -vP "^commit"
+	git rev-list --first-parent --pretty=format:"  discards %h %s" $newrev..$oldrev | grep -v "^commit"
 
 	# List all of the revisions that were added by this update
-	git rev-list --first-parent --pretty=format:"       via %h %s" $oldrev..$newrev | grep -vP "^commit"
+	git rev-list --first-parent --pretty=format:"       via %h %s" $oldrev..$newrev | grep -v "^commit"
 
 	removed=$(git rev-list $newrev..$oldrev)
 	if [ "$removed" == "" ] ; then
-		git rev-list --no-walk --pretty=format:"      from %h %s" $oldrev | grep -vP "^commit"
+		git rev-list --no-walk --pretty=format:"      from %h %s" $oldrev | grep -v "^commit"
 	else
 		# Must be rewind, could be rewind+addition
 		echo ""
