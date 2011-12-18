@@ -39,6 +39,9 @@
 # give information for debugging.
 #
 
+# May want to change this
+export USER_EMAIL=git
+
 # ---------------------------- Functions
 
 . $(dirname $0)/functions
